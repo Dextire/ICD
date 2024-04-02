@@ -1,0 +1,32 @@
+﻿@page "/"
+
+<div class="container">
+    <p class="text-center main-font">ICD For Orthopedic Surgery</p>
+    <input type="search" class="search" @bind-value="SearchText" @bind-value:event="oninput" placeholder="Type the diagnosis" />
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <td>Diagnosis</td>
+                    <td class="text-center">ICD Code</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var KeyValue in FilteredResults)
+                {
+                    <tr>
+                        <td class="main-column">@KeyValue.Value</td>
+                        <td class="text-center">@KeyValue.Key</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code
+{
+    string SearchText = "";
+    Dictionary<string, string> OrthopedicData = ICD_Data.Orthopedics;
+    IEnumerable<KeyValuePair<string, string>> FilteredResults => OrthopedicData.Where(kvp => kvp.Value.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+}
